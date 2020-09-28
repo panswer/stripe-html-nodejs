@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plaid</title>
+    <!-- Documentacion para ACH -->
+    <!-- https://stripe.com/docs/ach -->
+</head>
+
+<body>
+    <button id='linkButton'>Open Plaid Link</button>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script>
+        var linkHandler = Plaid.create({
+            env: 'sandbox',
+            clientName: 'Stripe/Plaid Test',
+            key: 'a11639235765a8e3219bf680af45ec',
+            product: ['auth'],
+            selectAccount: true,
+            onSuccess: function(public_token, metadata) {
+                // Send the public_token and account ID to your app server.
+                console.log('public_token: ' + public_token);
+                console.log('account ID: ' + metadata.account_id);
+                axios.post('http://localhost:3500/sendPay/method2', {
+                        public_token,
+                        account_id: metadata.account_id
+                    })
+                    .then((result) => {
+                        console.log(result);
+                    }).catch((err) => {
+                        console.log(err);
+                    });;
+            },
+            onExit: function(err, metadata) {
+                // The user exited the Link flow.
+                if (err != null) {
+                    // The user encountered a Plaid API error prior to exiting.
+                }
+                console.log(metadata);
+            },
+        });
+
+        // Trigger the Link UI
+        document.getElementById('linkButton').onclick = function() {
+            linkHandler.open();
+        };
+    </script>
+</body>
+
+</html>

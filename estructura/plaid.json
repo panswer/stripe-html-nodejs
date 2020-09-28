@@ -1,0 +1,5 @@
+{
+    "environments": "object",
+    "Client": "object",
+    "PlaidError": "object"
+}

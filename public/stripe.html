@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay with stripe to stripe</title>
+</head>
+
+<body>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Set your publishable key: remember to change this to your live publishable key in production
+        // See your keys here: https://dashboard.stripe.com/account/apikeys
+        var stripe = Stripe('pk_test_WlEWb6UBJDNC9Fj7q5w70tDh000LIB1z2w');
+        var elements = stripe.elements();
+    </script>
+</body>
+
+</html>
